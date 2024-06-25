@@ -1,6 +1,8 @@
 import sys 
 import xml.etree.ElementTree as ET
 from PySide6 import QtWidgets, QtGui, QtCore, QtWebEngineWidgets, QtWebEngineCore
+from mapHandler import *
+import plotly as px
 
 url="https://google.de"
 
@@ -16,26 +18,38 @@ def get_location_list():
 class GUI(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-        locationList = get_location_list()
-        self.startLocation = QtWidgets.QListWidget(self)
-        self.destLocation = QtWidgets.QListWidget(self)
-        for location in locationList:
-            self.startLocation.addItem(location)
-            self.destLocation.addItem(location)
-        self.browser = QtWebEngineWidgets.QWebEngineView()
-        self.browser.load(QtCore.QUrl(url))
         
-        self.startText = QtWidgets.QLabel('Start Location')
-        self.destText = QtWidgets.QLabel('Destination')
-        self.button = QtWidgets.QPushButton('Calculate')
-        self.layout = QtWidgets.QVBoxLayout(self)
-        self.layout.addWidget(self.startText)
-        self.layout.addWidget(self.startLocation)
-        self.layout.addWidget(self.destText)
-        self.layout.addWidget(self.destLocation)
-        self.layout.addWidget(self.button)
-        self.button.clicked.connect(self.buttonClicked)
-        self.layout.addWidget(self.browser)
+        fig = createMap("../data/karteDeutschland.xml")
+        
+        html = '<html><body>'
+        html += px.offline.plot(fig, output_type='div', include_plotlyjs='cdn')
+        html += '</body></html>'
+        
+        plot_widget = QtWebEngineWidgets.QWebEngineView()
+        plot_widget.setHtml(html)
+        
+        self.setCentralWidget(plot_widget)
+        
+        # locationList = get_location_list()
+        # self.startLocation = QtWidgets.QListWidget(self)
+        # self.destLocation = QtWidgets.QListWidget(self)
+        # for location in locationList:
+        #     self.startLocation.addItem(location)
+        #     self.destLocation.addItem(location)
+        # self.browser = QtWebEngineWidgets.QWebEngineView()
+        # self.browser.load(QtCore.QUrl(url))
+        
+        # self.startText = QtWidgets.QLabel('Start Location')
+        # self.destText = QtWidgets.QLabel('Destination')
+        # self.button = QtWidgets.QPushButton('Calculate')
+        # self.layout = QtWidgets.QVBoxLayout(self)
+        # self.layout.addWidget(self.startText)
+        # self.layout.addWidget(self.startLocation)
+        # self.layout.addWidget(self.destText)
+        # self.layout.addWidget(self.destLocation)
+        # self.layout.addWidget(self.button)
+        # self.button.clicked.connect(self.buttonClicked)
+        # self.layout.addWidget(self.browser)
     @QtCore.Slot()
     def buttonClicked(self):
               pass

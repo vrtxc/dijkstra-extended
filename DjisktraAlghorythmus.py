@@ -1,5 +1,7 @@
 from xml.dom.minidom import *
-
+import sys
+from gui.gui import *
+from gui.mapHandler import *
 
 class Knoten(object):
     def __init__(self, nameKnoten):
@@ -267,3 +269,16 @@ class GraphDijkstra(GraphMitDaten):
             weg = []
             weglaenge = 'u'
         return (weg, weglaenge)
+
+
+
+class mapCreation(GraphDijkstra):
+    def __init__(self):
+        GraphDijkstra.__init__(self)
+        # createMap("./data/karteDeutschland.xml")
+        
+
+map = mapCreation()
+
+        
+        

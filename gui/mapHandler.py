@@ -4,7 +4,7 @@ import plotly.express as px
 
 
 def createMap(routeTable):
-    tree = ET.parse("./data/karteDeutschland.xml")
+    tree = ET.parse(routeTable)
     root = tree.getroot()
     value = '#'
     data = []
@@ -26,9 +26,9 @@ def createMap(routeTable):
 
     route = pd.concat([city_start, city_dest])
 
-    fig = px.line_mapbox(route, lat="lat", lon="lon", color="value", zoom=3, height=900)
+    # fig = px.line_mapbox(route, lat="lat", lon="lon", color="value", zoom=3, height=900)
 
-    fig.update_layout(mapbox_style="open-street-map", margin={"r":0,"t":0,"l":0,"b":0})
+    # fig.update_layout(mapbox_style="open-street-map", margin={"r":0,"t":0,"l":0,"b":0})
 
-    fig.show()
+        
         
